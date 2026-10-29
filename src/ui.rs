@@ -150,7 +150,7 @@ fn draw_header(f: &mut Frame, area: Rect, app: &App) {
             9,
             vec![
                 Span::styled(
-                    " ◆ vigil ",
+                    " ◆ mulot ",
                     Style::new()
                         .fg(t.accent_fg)
                         .bg(t.accent)
@@ -927,7 +927,7 @@ fn draw_help(f: &mut Frame, area: Rect, t: &Theme) {
     lines.push(Line::default());
     lines.push(
         Line::from(Span::styled(
-            format!("vigil {} · press any key", env!("CARGO_PKG_VERSION")),
+            format!("mulot {} · press any key", env!("CARGO_PKG_VERSION")),
             Style::new().fg(t.muted),
         ))
         .centered(),
@@ -999,7 +999,7 @@ mod tests {
     fn full_dashboard_renders_every_panel() {
         let screen = render(160, 48);
         for panel in [
-            "vigil",
+            "mulot",
             "CPU",
             "Memory",
             "Network",

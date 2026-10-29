@@ -1,11 +1,11 @@
 [package]
-name = "vigil"
-version = "0.1.0"
+name = "mulot"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.88"
 description = "A fast, beautiful terminal system monitor: CPU (P/E cores), memory pressure, GPU, disks, network, sensors, battery and processes."
 license = "MIT"
-repository = "https://github.com/ElyOgl/vigil"
+repository = "https://github.com/ElyOgl/mulot"
 readme = "README.md"
 keywords = ["monitor", "tui", "system", "top", "macos"]
 categories = ["command-line-utilities"]

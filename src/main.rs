@@ -1,4 +1,4 @@
-//! vigil: a fast, beautiful terminal system monitor.
+//! mulot: a fast, beautiful terminal system monitor.
 
 mod app;
 mod collector;
@@ -20,14 +20,14 @@ use crate::collector::{Collector, Sample, StaticInfo};
 use crate::theme::ThemeName;
 
 #[derive(Parser, Debug)]
-#[command(name = "vigil", version, about, long_about = None)]
+#[command(name = "mulot", version, about, long_about = None)]
 struct Cli {
     /// Refresh interval in milliseconds (250–10000).
     #[arg(short, long, default_value_t = 1000, value_parser = clap::value_parser!(u64).range(250..=10_000))]
     interval: u64,
 
     /// Color theme (default: auto-detected from the terminal).
-    #[arg(short, long, value_enum, env = "VIGIL_THEME")]
+    #[arg(short, long, value_enum, env = "MULOT_THEME")]
     theme: Option<ThemeName>,
 
     /// Initial process sort column.
@@ -45,7 +45,7 @@ struct Cli {
 
 #[derive(Serialize)]
 struct Report<'a> {
-    vigil_version: &'static str,
+    mulot_version: &'static str,
     system: &'a StaticInfo,
     #[serde(flatten)]
     sample: &'a Sample,
@@ -95,7 +95,7 @@ fn print_json(top: usize) -> Result<()> {
     sample.processes.sort_by(|a, b| b.cpu.total_cmp(&a.cpu));
     sample.processes.truncate(top);
     let report = Report {
-        vigil_version: env!("CARGO_PKG_VERSION"),
+        mulot_version: env!("CARGO_PKG_VERSION"),
         system: collector.info(),
         sample: &sample,
     };

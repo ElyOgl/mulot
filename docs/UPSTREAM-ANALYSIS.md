@@ -1,6 +1,6 @@
 # Upstream analysis: terminal-system-monitor
 
-Analysis of [krishnapschauhan/terminal-system-monitor](https://github.com/krishnapschauhan/terminal-system-monitor) at commit `ffefb79`, done with [rea](https://github.com/morluto/rea) (static JavaScript application graph) plus controlled checks on an Apple M5 MacBook Air running macOS 26.5. This is the groundwork vigil was designed from.
+Analysis of [krishnapschauhan/terminal-system-monitor](https://github.com/krishnapschauhan/terminal-system-monitor) at commit `ffefb79`, done with [rea](https://github.com/morluto/rea) (static JavaScript application graph) plus controlled checks on an Apple M5 MacBook Air running macOS 26.5. This is the groundwork mulot was designed from.
 
 ## What it is
 
@@ -20,7 +20,7 @@ Analysis of [krishnapschauhan/terminal-system-monitor](https://github.com/krishn
 
 ## Findings
 
-| # | Finding | Evidence | vigil |
+| # | Finding | Evidence | mulot |
 |---|---|---|---|
 | 1 | **Memory is wrong on macOS.** `used = totalmem − freemem` counts file cache and compressed pages as used. | On the test Mac it reported **98.6 % used** while `vm_stat` showed ~10 GB reclaimable. The real state was kernel pressure *warn* with 9.6 / 10 GB swap in use, and the dashboard can't show either. | Uses Activity Monitor's formula (app + wired + compressed), shows kernel pressure, swap and a breakdown |
 | 2 | **The disk panel only works on Windows**, and only where `wmic` still exists. Microsoft deprecated it and removes it in recent Windows 11 builds. | `command -v wmic` → not found, so the panel permanently says "Disk data unavailable" on macOS/Linux | Reads volumes in-process on every OS and de-duplicates APFS containers |
@@ -32,6 +32,6 @@ Analysis of [krishnapschauhan/terminal-system-monitor](https://github.com/krishn
 | 8 | **No controls** besides quit, and a hard-coded window title ("Krishna System Monitor"). | `screen.key(["escape","q","C-c"])` is the only listener | Pause, speed, sort, filter, kill, themes, help, CLI flags, JSON output |
 | 9 | **Chalk escape codes inside blessed widgets.** Table column widths are computed on strings that contain ANSI codes, so columns can misalign. | `colorPercent()` output passed to `contrib.table` | Styles are attributes on cells, never inline escape codes |
 
-## What vigil keeps
+## What mulot keeps
 
 The concept: one screen, color-coded thresholds (green / yellow / red), a CPU history graph, per-core usage, memory, disks and system info, with `q`/`esc` to quit.

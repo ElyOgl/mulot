@@ -16,7 +16,7 @@ use sysinfo::{
 
 use crate::platform::{self, CoreTopology, MemBreakdown, Pressure};
 
-/// Facts that do not change while vigil runs.
+/// Facts that do not change while mulot runs.
 #[derive(Debug, Clone, Serialize)]
 pub struct StaticInfo {
     pub host: String,

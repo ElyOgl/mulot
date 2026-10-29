@@ -1,7 +1,7 @@
 name: release
 
 # Push a tag like `v0.2.0` to build every platform, attach the archives to a
-# GitHub release and (when HOMEBREW_TAP_TOKEN is set) bump the Homebrew tap.
+# GitHub release and (when TAP_DEPLOY_KEY is set) bump the Homebrew tap.
 on:
   push:
     tags: ["v*"]
@@ -22,7 +22,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
-            || gh release create "$GITHUB_REF_NAME" --title "vigil $GITHUB_REF_NAME" --generate-notes --verify-tag
+            || gh release create "$GITHUB_REF_NAME" --title "mulot $GITHUB_REF_NAME" --generate-notes --verify-tag
 
   build:
     needs: create-release
@@ -50,15 +50,15 @@ jobs:
       - name: Package
         shell: bash
         run: |
-          name="vigil-${GITHUB_REF_NAME}-${{ matrix.target }}"
+          name="mulot-${GITHUB_REF_NAME}-${{ matrix.target }}"
           mkdir -p "dist/$name"
           cp README.md LICENSE "dist/$name/"
           if [[ "${{ matrix.target }}" == *windows* ]]; then
-            cp "target/${{ matrix.target }}/release/vigil.exe" "dist/$name/"
+            cp "target/${{ matrix.target }}/release/mulot.exe" "dist/$name/"
             (cd dist && 7z a -tzip "$name.zip" "$name" >/dev/null)
             archive="dist/$name.zip"
           else
-            cp "target/${{ matrix.target }}/release/vigil" "dist/$name/"
+            cp "target/${{ matrix.target }}/release/mulot" "dist/$name/"
             tar -C dist -czf "dist/$name.tar.gz" "$name"
             archive="dist/$name.tar.gz"
           fi
@@ -70,7 +70,7 @@ jobs:
         if: matrix.target != 'x86_64-apple-darwin'
         shell: bash
         run: |
-          bin="target/${{ matrix.target }}/release/vigil"
+          bin="target/${{ matrix.target }}/release/mulot"
           "$bin" --version
           "$bin" --json --top 1 > /dev/null
       - name: Upload
@@ -83,21 +83,25 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+      # Private half of a write deploy key that exists only on ElyOgl/homebrew-tap.
+      TAP_DEPLOY_KEY: ${{ secrets.TAP_DEPLOY_KEY }}
     steps:
       - uses: actions/checkout@v5
-        if: env.TAP_TOKEN != ''
+        if: env.TAP_DEPLOY_KEY != ''
       - name: Bump ElyOgl/homebrew-tap
-        if: env.TAP_TOKEN != ''
+        if: env.TAP_DEPLOY_KEY != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$TAP_DEPLOY_KEY" > ~/.ssh/tap_key && chmod 600 ~/.ssh/tap_key
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/tap_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
           mkdir -p sums && gh release download "$GITHUB_REF_NAME" --pattern '*.sha256' --dir sums
-          git clone "https://x-access-token:${TAP_TOKEN}@github.com/ElyOgl/homebrew-tap.git" tap
-          scripts/formula.sh "${GITHUB_REF_NAME#v}" sums > tap/Formula/vigil.rb
+          git clone git@github.com:ElyOgl/homebrew-tap.git tap
+          scripts/formula.sh "${GITHUB_REF_NAME#v}" sums > tap/Formula/mulot.rb
           cd tap
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Formula/vigil.rb
-          git commit -m "vigil ${GITHUB_REF_NAME#v}" || exit 0
-          git push
+          git add Formula/mulot.rb
+          git commit -m "mulot ${GITHUB_REF_NAME#v}" || exit 0
+          git push origin HEAD:main

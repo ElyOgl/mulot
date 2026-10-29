@@ -806,6 +806,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "mulot"
+version = "0.2.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "libc",
+ "ratatui",
+ "serde",
+ "serde_json",
+ "starship-battery",
+ "sysinfo",
+]
+
+[[package]]
 name = "nix"
 version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1852,20 +1866,6 @@ name = "version_check"
 version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
-
-[[package]]
-name = "vigil"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "libc",
- "ratatui",
- "serde",
- "serde_json",
- "starship-battery",
- "sysinfo",
-]
 
 [[package]]
 name = "vtparse"
