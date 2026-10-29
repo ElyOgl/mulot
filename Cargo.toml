@@ -1,0 +1,30 @@
+[package]
+name = "vigil"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "A fast, beautiful terminal system monitor: CPU (P/E cores), memory pressure, GPU, disks, network, sensors, battery and processes."
+license = "MIT"
+repository = "https://github.com/ElyOgl/vigil"
+readme = "README.md"
+keywords = ["monitor", "tui", "system", "top", "macos"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive", "env"] }
+ratatui = "0.30.2"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+starship-battery = "0.12.0"
+sysinfo = "0.40.0"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2.191"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
