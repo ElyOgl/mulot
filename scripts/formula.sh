@@ -21,7 +21,6 @@ cat <<EOF
 class Vigil < Formula
   desc "Fast, beautiful terminal system monitor (P/E cores, memory pressure, GPU)"
   homepage "https://github.com/ElyOgl/vigil"
-  version "${version}"
   license "MIT"
 
   on_macos do
