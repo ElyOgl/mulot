@@ -100,7 +100,7 @@ Everything is read in-process. mulot never shells out.
 
 Bump `version` in `Cargo.toml`, then push a tag (`git tag v0.3.0 && git push origin main --tags`). GitHub Actions builds macOS (arm64, x86_64), Linux musl (x86_64, arm64) and Windows, attaches the archives and checksums to the release, and then commits the new formula to [ElyOgl/homebrew-tap](https://github.com/ElyOgl/homebrew-tap). The tap push goes through a write deploy key that only works on the tap repo (secret `TAP_DEPLOY_KEY`). No personal token is involved.
 
-> Formerly **vigil**. The name changed in 0.2.0, and `brew upgrade` migrates an existing `vigil` install automatically.
+> Formerly **vigil** (renamed in 0.2.0). If you installed vigil, switch with `brew uninstall vigil && brew install ElyOgl/tap/mulot`.
 
 ## Credits
 

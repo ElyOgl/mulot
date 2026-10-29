@@ -1,7 +1,7 @@
 # Changelog
 
 ## 0.2.0
-- **Renamed from `vigil` to `mulot`.** The binary, formula (`brew install ElyOgl/tap/mulot`), environment variable (`MULOT_THEME`) and JSON field (`mulot_version`) all follow the new name. Existing Homebrew installs migrate on `brew upgrade`.
+- **Renamed from `vigil` to `mulot`.** The binary, formula (`brew install ElyOgl/tap/mulot`), environment variable (`MULOT_THEME`) and JSON field (`mulot_version`) all follow the new name. If you installed vigil, switch with `brew uninstall vigil && brew install ElyOgl/tap/mulot`. If you've trusted the tap (`brew trust elyogl/tap`), `brew migrate vigil` does it in place.
 - Releases now update the Homebrew tap automatically.
 
 ## 0.1.0
